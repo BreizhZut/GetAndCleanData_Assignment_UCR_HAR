@@ -3,7 +3,7 @@ library(dplyr)
 datadir <-  "UCI HAR Dataset"
 ## I renamed the data directory since I don't like spaces in directories
 ## The next line is commented for the online GitHub repo
-## datadir <- gsub(" ","_",datadir)
+#datadir <- gsub(" ","_",datadir)
 message(paste("Importing data from:",datadir))
 if (!dir.exists("UCI_HAR_Dataset")){
 	stop("Data set Directory missing from current Working directory")
@@ -18,8 +18,8 @@ featlabel <- read.table(filefeat,col.names=c("colid","collabel"))
 featlabel <- as.character(featlabel$collabel)
 ## Since we are at it might as well rename the labels we need
 ## create character arrays of patterns an replacements
-patarr <- c("()","-","Body","Gravity","Gyro","Jerk")
-reparr <- c(""  ,".","B"   ,"Grav"   ,"Gy","Jk")
+patarr <- c("()","-","BodyBody","Body","Gravity","Gyro","Jerk")
+reparr <- c(""  ,".","B","B"   ,"Grav"   ,"Gy","Jk")
 ## We use sub here to replace only the first "-" and keep the -X as is
 for(i in 1:length(patarr)){
     ## fixed =TRUE s so that R do not thing that '(',')' are metacharacters
@@ -114,3 +114,10 @@ meanfull <- bind_cols(meanfull,meanstoend)
 rm(meanstoend)
 message("Printing combined data frame")
 print(meanfull)
+message("Outputting the combined data from data.frame")
+names(meanfull) <- format(
+    names(meanfull),width=labformat,justify ="right")
+write.table(format(meanfull,width=labformat),
+            file="assignment_output.txt",
+            row.names=FALSE,quote=FALSE)
+
