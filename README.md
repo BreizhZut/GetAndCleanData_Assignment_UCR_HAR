@@ -29,6 +29,7 @@ This repository contains:
 1. A tidy data set as described below, written as 2 files:  
 	* `subject_activity.txt`: Contains the subject and activity entries as integer
 	* `mean_X_table_per_subject_activity.txt`: Contains the mean of each processed data per subject and activity
+	* `assignment_output.txt`: Combines both previous outputs
 2. A script for performing the analysis: `run_analysis.R`
 3. A code book that describes the variables, the data, and any transformations or work performed to clean up the data called `CodeBook.md`
 
@@ -43,13 +44,14 @@ Remark: the tidy data set provided here is separate in two file, since (1) one f
 1. Outputs result as ASCII files, row names are omitted, columns names are included within a 1 line header. The two files are the folling: 
 	* `subject_activity.txt`: Contains the subject and activity entries as integer
 	* `mean_X_table_per_subject_activity.txt`: Contains the mean of each processed data per subject and activity
+	* `assignment_output.txt`: Combines both previous outputs
 1. Prints the combined `data.frame`
 
 ###Requirement
 
 * package `dplyr` is loaded by the script, so it has to be installed before running the script
-* The working directory must contain the original data directory: <br />
-`UCI HAR Dataset/`
+* The working directory must contain the original data directory: <br />`UCI HAR Dataset/`
+* Script was tested with `R version 3.2.4 (2016-03-10) -- "Very Secure Dishes"` on `Mac OS X version 10.11.4`
 
 ###Usage
 
@@ -60,7 +62,7 @@ If the working directory contains the script simply use:<br />
 Obtianing in the `R` console:
 
 ```{r}
-Importing data from: UCI HAR Dataset
+Importing data from: UCI_HAR_Dataset
 Number of entries to be extracted data set 66
 Reading train data set
 Reading test data set
@@ -96,9 +98,10 @@ Variables not shown: mean.tBAcc.std.Y (dbl), mean.tBAcc.std.Z (dbl), mean.tGravA
   (dbl), mean.fBAcc.std.X (dbl), mean.fBAcc.std.Y (dbl), mean.fBAcc.std.Z (dbl), mean.fBAccJk.mean.X (dbl),
   mean.fBAccJk.mean.Y (dbl), mean.fBAccJk.mean.Z (dbl), mean.fBAccJk.std.X (dbl), mean.fBAccJk.std.Y (dbl),
   mean.fBAccJk.std.Z (dbl), mean.fBGy.mean.X (dbl), mean.fBGy.mean.Y (dbl), mean.fBGy.mean.Z (dbl), mean.fBGy.std.X (dbl),
-  mean.fBGy.std.Y (dbl), mean.fBGy.std.Z (dbl), mean.fBAccMag.mean (dbl), mean.fBAccMag.std (dbl), mean.fBBAccJkMag.mean
-  (dbl), mean.fBBAccJkMag.std (dbl), mean.fBBGyMag.mean (dbl), mean.fBBGyMag.std (dbl), mean.fBBGyJkMag.mean (dbl),
-  mean.fBBGyJkMag.std (dbl)
+  mean.fBGy.std.Y (dbl), mean.fBGy.std.Z (dbl), mean.fBAccMag.mean (dbl), mean.fBAccMag.std (dbl), mean.fBAccJkMag.mean
+  (dbl), mean.fBAccJkMag.std (dbl), mean.fBGyMag.mean (dbl), mean.fBGyMag.std (dbl), mean.fBGyJkMag.mean (dbl),
+  mean.fBGyJkMag.std (dbl)
+Outputting the combined data from data.frame
 ```
 
 Output can be red as follows:
@@ -117,13 +120,19 @@ stats_mean <- read.table("subject_activity.txt",header=TRUE) %>%
 ##Print the result
 tbl_df(stats_mean)
 ```
+Or even with the additionnal combined output:
+
+```{r}
+tbl_df(read.table("assignment_output.txt",header=TRUE))
+```
+
 ```{r}
 Source: local data frame [180 x 68]
 
    subject activity mean.tBAcc.mean.X mean.tBAcc.mean.Y mean.tBAcc.mean.Z mean.tBAcc.std.X mean.tBAcc.std.Y
      (int)    (int)             (dbl)             (dbl)             (dbl)            (dbl)            (dbl)
 1        1        1         0.2773308      -0.017383819        -0.1111481      -0.28374026      0.114461337
-2        1        2         0.2554617      -0.023953149        -0.0973020      -0.35470803     -0.002320265
+2        1        2         0.2554617      -0.023953149        -0.0973020      -0.35470802     -0.002320265
 3        1        3         0.2891883      -0.009918505        -0.1075662       0.03003534     -0.031935943
 4        1        4         0.2612376      -0.001308288        -0.1045442      -0.97722901     -0.922618642
 5        1        5         0.2789176      -0.016137590        -0.1106018      -0.99575990     -0.973190056
@@ -145,6 +154,6 @@ Variables not shown: mean.tBAcc.std.Z (dbl), mean.tGravAcc.mean.X (dbl), mean.tG
   mean.fBAcc.std.Y (dbl), mean.fBAcc.std.Z (dbl), mean.fBAccJk.mean.X (dbl), mean.fBAccJk.mean.Y (dbl), mean.fBAccJk.mean.Z
   (dbl), mean.fBAccJk.std.X (dbl), mean.fBAccJk.std.Y (dbl), mean.fBAccJk.std.Z (dbl), mean.fBGy.mean.X (dbl),
   mean.fBGy.mean.Y (dbl), mean.fBGy.mean.Z (dbl), mean.fBGy.std.X (dbl), mean.fBGy.std.Y (dbl), mean.fBGy.std.Z (dbl),
-  mean.fBAccMag.mean (dbl), mean.fBAccMag.std (dbl), mean.fBBAccJkMag.mean (dbl), mean.fBBAccJkMag.std (dbl),
-  mean.fBBGyMag.mean (dbl), mean.fBBGyMag.std (dbl), mean.fBBGyJkMag.mean (dbl), mean.fBBGyJkMag.std (dbl)
+  mean.fBAccMag.mean (dbl), mean.fBAccMag.std (dbl), mean.fBAccJkMag.mean (dbl), mean.fBAccJkMag.std (dbl),
+  mean.fBGyMag.mean (dbl), mean.fBGyMag.std (dbl), mean.fBGyJkMag.mean (dbl), mean.fBGyJkMag.std (dbl)
 ```

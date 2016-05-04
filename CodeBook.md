@@ -19,45 +19,53 @@ The dataset was published in [^data], the directory we downloaded contains:
 	* `feature_info.txt`: Describe the measurements, units
 	* `feature.txt`: List of feature variables (561 entries)
 1. `train/`: Directory containing the training data set, contains
-	1. `X_train.txt`: nicely formatted ascii file containing a table of values, each columns being a statistical values of a given feature, for a given session. 
-	1. `y_train.txt`: list of indexes (range 1:6, same number of lines as `X_train.txt`)
-	1. `subject_train`: list of indexes (same number of lines as `X_train.txt`)
-	1. `Inertial Signal/`: Directory containing the data as 9 text files
+	* `X_train.txt`: nicely formatted ascii file containing a table of values, each columns being a statistical values of a given feature, for a given session. 
+	* `y_train.txt`: list of indexes (range 1:6, same number of lines as `X_train.txt`)
+	* `subject_train`: list of indexes (same number of lines as `X_train.txt`)
+	* `Inertial Signal/`: Directory containing the data as 9 text files
 		* Each file correspond to one variable
 		* Each file contains the same number of raws as the others
 		* These files are the initial measurements, later processed with statistical tool to obtain `X_train.txt`
 1. `test/`: Directory containing the test data set. With similar files as the `train` dataset.
-  1. `X_test.txt`: Same as `X_train.txt`, with different number of rows
-  1. `y_test.txt`: Same as `y_train.txt`, with different number of rows
-  1. `subject_test`: Same as `y_train.txt`, with different subject ids and different number of rows
-  1. `Inertial Signal/`: Directory containing the data as 9 text files same as in `train/`
+  * `X_test.txt`: Same as `X_train.txt`, with different number of rows
+  * `y_test.txt`: Same as `y_train.txt`, with different number of rows
+  * `subject_test`: Same as `y_train.txt`, with different subject ids and different number of rows
+  * `Inertial Signal/`: Directory containing the data as 9 text files same as in `train/`
      
 
 ### Processed tidy data
 
-#### Featured variables
+* `subject_activity.txt`: Contains the subject and activity entries as integer
+* `mean_X_table_per_subject_activity.txt`: Contains the mean of each processed data per subject and activity
+* `assignment_output.txt`: Combines both previous outputs
 
-In order to create the files the variable names were rewritten as following:
+#### Featured measurments
 
-1. `tBodyAcc`: `tBAcc`
-1. `tGravityAcc`: `tGravAcc`
-1. `tBodyAccJerk`: `tBAccJk`
-1. `tBodyGyro`: `tBGy`
-1. `tBodyGyroJerk`: `tBGyJk`
-1. `tBodyAccMag`: `tBAccMag`
-1. `tGravityAccMag`: `tGravAccMag`
-1. `tBodyAccJerkMag`: `tBAccJkMag`
-1. `tBodyGyroMag`: `tBGyMag`
-1. `tBodyGyroJerkMag`: `tBGyJkMag`
-1. `fBodyAcc`: `fBAcc`
-1. `fBodyAccJerk`: `fBAccJk`
-1. `fBodyGyro`: `fBGy`
-1. `fBodyAccMag`: `fBAccMag`
-1. `fBodyBodyAccJerkMag`: `fBBAccJkMag`
-1. `fBodyBodyGyroMag`: `fBBGyMag`
-1. `fBodyBodyGyroJerkMag`: `fBBGyJkMag`
+Each feature  measurement start either with  `t`; denoting the time domain signals or `f`: donoting the Fast Fourier Transform (FFT) of the time domain  signals. Informations regarding these measurements were inferred from the code book provided with the data as files `README.txt` and `feature_info.txt`. We refer to those documents for more detail and more accurate interpretations of the data.<br \>
+Additionally, in order to create the files the measurements names were rewritten as following:
 
-We refer to the code book of the original data set `feature_info.txt`. For each of this measure, multiple statistical operation were performed by the original author. We extract from the relevent files, 
+1. `tBodyAcc`: `tBAcc` Triaxial acceleration from the accelerometer: estimated body acceleration component. Units: Normalised vector. 
+1. `tGravityAcc`: `tGravAcc` Triaxial acceleration from the accelerometer: estimated gravity acceleration component. Units: Normalised vector. 
+1. `tBodyAccJerk`: `tBAccJk` Time derivation of `tBodyAcc` Units: Normalised vector. 
+1. `tBodyGyro`: `tBGy` Triaxial Angular velocity from the gyroscope. Units: Normalised vector. 
+1. `tBodyGyroJerk`: `tBGyJk` Time derivation of `tBodyGyro`. Units: Normalised vector. 
+1. `tBodyAccMag`: `tBAccMag`  Euclidean norm magnitude of `tBodyAcc` . Units: gravity units 'g' ( gravity subtracted)
+1. `tGravityAccMag`: `tGravAccMag` Euclidean norm magnitude of `tGravAcc`. Units: gravity units 'g' ( gravity subtracted)
+1. `tBodyAccJerkMag`: `tBAccJkMag` Euclidean norm magnitude of `tBodyAccJerk` Euclidean norm magnitude of `tBodyAcc` . Units: gravity units 'g'/second
+1. `tBodyGyroMag`: `tBGyMag` Euclidean norm magnitude of `tBodyGyro' 
+Units:  radians/second. 
+1. `tBodyGyroJerkMag`: `tBGyJkMag` Euclidean norm magnitude of `tBodyGyroJerk`. Units:  radians/second/second. 
+1. `fBodyAcc`: `fBAcc` FFT of `tBodyAcc`. Units: Normalised vector. 
+1. `fBodyAccJerk`: `fBAccJk` FFT of `tBodyAccJerk`. Units: Normalised vector. 
+1. `fBodyGyro`: `fBGy` FFT of `tBodyGyro`. Units: Normalised vector. 
+1. `fBodyAccMag`: `fBAccMag` FFT of `tBodyAccMag`. 
+1. `fBodyBodyAccJerkMag` or `fBodyBodyAccJerkMag`: `fBAccJkMag` FFT of `tBodyAccJerkMag`
+1. `fBodyBodyGyroMag` or `fBodyGyroMag`: `fBGyMag` FFT of `tBodyGyroMag`
+1. `fBodyBodyGyroJerkMag` or `fBodyGyroJerkMag`: `fBGyJkMag` FFT of `tBodyGyroJerkMag`B
+
+As stated in the README, each features were normalized and bounded within [-1,1]. We interpreted this statement as a renormalization of each vector variable. The units described here are own interpretation of what they ought to be, provided we understood their method and data.
+
+We refer to the code book of the original data set `feature_info.txt`. For each of this measure, multiple statistical operation were performed by the original author. We extract from the relevant files, 
 `X_train.txt` and `X_test.txt` only the following: 
 
 1. `.mean.X`Mean[^mean] of the X direction of the vector, taken across time (`t`) of frequencies (`f`) 
@@ -66,10 +74,10 @@ We refer to the code book of the original data set `feature_info.txt`. For each 
 1. `.std.X`Standard deviation to the mean[^std] of the X direction of the vector, taken across time (`t`) of frequencies (`f`) 
 1. `.std.Y` Same as `.std.X` for the Y direction of the vector
 1. `.std.Z` Same as `.std.X` for the Z direction of the vector
-1. `.mean`Mean of
-1. `.std`Standard deviation to the mean of 
+1. `.mean`Mean of the norm of the vector
+1. `.std`Standard deviation to the mean of he norm of the vector
 
-#### `Subject_Activity.txt`
+#### `subject_activity.txt`
 
 This file is a table containing two columns, each rows is a different combinaison of subject and activity as found in the initial data sample. The columns correspond to the following:
 
@@ -82,8 +90,7 @@ This file is a table containing two columns, each rows is a different combinaiso
    * `5` STANDING
    * `6` LAYING
 
-#### `mean_X_train_Subject_Activity.txt`
-
+#### `mean_X_train_per_subject_activity.txt`
 
 This file is a table containing 66 columns, each rows is a different combinaison of subject and activity as found in the initial data sample. 
 Each columns correspond to the mean of a given feature statistical measurement for a given subject and activity. Hence the `mean.`
@@ -150,12 +157,17 @@ The columns correspond to the following:
 1. `      mean.fBGy.std.Z` 
 1. `   mean.fBAccMag.mean` 
 1. `    mean.fBAccMag.std` 
-1. `mean.fBBAccJkMag.mean` 
-1. ` mean.fBBAccJkMag.std` 
-1. `   mean.fBBGyMag.mean` 
-1. `    mean.fBBGyMag.std` 
-1. ` mean.fBBGyJkMag.mean` 
-1. `  mean.fBBGyJkMag.std` 
+1. `mean.fBAccJkMag.mean` 
+1. ` mean.fBAccJkMag.std` 
+1. `   mean.fBGyMag.mean` 
+1. `    mean.fBGyMag.std` 
+1. ` mean.fBGyJkMag.mean` 
+1. `  mean.fBGyJkMag.std` 
+
+#### `assignment_output.txt`
+
+This is an additional output for the project submission.<br />
+It is similar to `mean_X_train_per_subject_activity.txt` with the `subject` and `activity` variables added as the first two rows. 
 
 ## Implementation
 
@@ -181,8 +193,8 @@ featlabel <- as.character(featlabel$collabel)
 
 ## Since we are at it might as well rename the labels we need
 ## create character arrays of patterns an replacements
-patarr <- c("()","-","Body","Gravity","Gyro","Jerk")
-reparr <- c(""  ,".","B"   ,"Grav"   ,"Gy","Jk")
+patarr <- c("()","-","BodyBody","Body","Gravity","Gyro","Jerk")
+reparr <- c(""  ,".","B","B"   ,"Grav"   ,"Gy","Jk")
 
 ## We use sub here to replace only the first "-" and keep the -X as is
 for(i in 1:length(patarr)){
@@ -298,9 +310,10 @@ write.table(format(meanfull,width=saformat),
             row.names=FALSE,quote=FALSE)
 ```
 
-####Printing end `data.frame`
+####Printing final combined `data.frame`
 
-```{r}## Combining the cols of the data.frame
+```{r}
+## Combining the cols of the data.frame
 meanfull <- bind_cols(meanfull,meanstoend)
 ## Printing result
 print(meanfull)
@@ -309,6 +322,15 @@ print(meanfull)
 [^data]: Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
 [^mean]: We measure the mean of means, the value we extracted is probably statistically relevant.
 [^std]: We measure the mean of standard deviation, the value we extracted is not statistically relevant. To extract a standard deviation we should use quadratic means
+
+####Reformating and Outputting the final combined `data.frame` for submission
+```{r}
+names(meanfull) <- format(
+    names(meanfull),width=labformat,justify ="right")
+write.table(format(meanfull,width=labformat),
+            file="assignment_output.txt",
+            row.names=FALSE,quote=FALSE)
+```
 
 ##Acknowledgment
 
