@@ -33,7 +33,7 @@ This repository contains:
 2. A script for performing the analysis: `run_analysis.R`
 3. A code book that describes the variables, the data, and any transformations or work performed to clean up the data called `CodeBook.md`
 
-Remark: the tidy data set provided here is separate in two file, since (1) one file should contains only the mean of each variable, (2) we stick to the organisation of the  original data, the subject id and Activity written as id should be kept separate as integers.
+Remark: the tidy data set provided here is separate in two file, since (1) one file should contain only the mean of each variable, (2) we stick to the organisation of the  original data, the subject id and Activity written as id should be kept separate as integers.
 
 ## Script `run_analysis.R`
 
@@ -59,10 +59,10 @@ If the working directory does not contains the script, (1) defining the variable
 `source(paste0(script_dir,"/run_analysis.R"))`<br />
 If the working directory contains the script simply use:<br />
 `source("run_analysis.R")`<br \>
-Obtianing in the `R` console:
+Obtaining in the `R` console:
 
 ```{r}
-Importing data from: UCI_HAR_Dataset
+Importing data from: UCI HAR Dataset
 Number of entries to be extracted data set 66
 Reading train data set
 Reading test data set

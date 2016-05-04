@@ -61,7 +61,7 @@ Units:  radians/second.
 1. `fBodyAccMag`: `fBAccMag` FFT of `tBodyAccMag`. 
 1. `fBodyBodyAccJerkMag` or `fBodyBodyAccJerkMag`: `fBAccJkMag` FFT of `tBodyAccJerkMag`
 1. `fBodyBodyGyroMag` or `fBodyGyroMag`: `fBGyMag` FFT of `tBodyGyroMag`
-1. `fBodyBodyGyroJerkMag` or `fBodyGyroJerkMag`: `fBGyJkMag` FFT of `tBodyGyroJerkMag`B
+1. `fBodyBodyGyroJerkMag` or `fBodyGyroJerkMag`: `fBGyJkMag` FFT of `tBodyGyroJerkMag`
 
 As stated in the README, each features were normalized and bounded within [-1,1]. We interpreted this statement as a renormalization of each vector variable. The units described here are own interpretation of what they ought to be, provided we understood their method and data.
 
@@ -171,15 +171,16 @@ It is similar to `mean_X_train_per_subject_activity.txt` with the `subject` and 
 
 ## Implementation
 
-As we could see the data itself is clean and well organised. For this assignment we don't have to deal with messy data or Weird data.frames.
+As we could see the data itself is clean and well organised. For this assignment we don't have to deal with messy data or strange `data.frames`.
 
-### Organising each sample into data.frame
+### Organising each sample into `data.frame`
 
 We simply have to: 
+
 1. Read the relevant files to get the labels. Might as well rename them.
 1. Read extra column from extra files (those with integers that could not be put as a table). 
 1. Read the relevant table, and combine 
-1. Combine all into a nice and clean data.frame
+1. Combine all into a nice and clean `data.frame`
 
 ### Reading the labels, and create label selection
 
@@ -207,7 +208,7 @@ for(i in 1:length(patarr)){
 labselect <- grep("\\.mean\\.[XYZ]|.mean$|\\.std\\.[XYZ]|.std",featlabel)
 ```
 
-### For each data set combine table into one data.frame 
+### Conbining data sets  into one `data.frame` 
 
 ```{r}
 ## We use bind_cols to add columns one after the other
@@ -225,11 +226,11 @@ testdata <- tbl_df(read.table("test/subject_test.txt",col.names="subject")) %>%
     bind_cols(select(tbl_df(read.table("test/y_test.txt",col.names=featlabel)),labselect))
 ```
 
-### Merge the two sets.
+### Merging the two sets.
 
-<p>Initialy we though that we add to use merge, taking "subject" and "activity" to match rows.
+Initialy we though that we add to use merge, taking "subject" and "activity" to match rows.
 Actually the two data sets contains different subject. Supposedly the data was split into a training set and a test. for machine learning purposes. So the idea there is to combine the two independent data set into a sigle one. Since both data set contains the same number of columns, and that we make sure to get the same one in both sets. It is quite strait-forward.
-</p> 
+
 
 ```{r}
 ## Merge data as one data.frame
@@ -238,9 +239,9 @@ fulldata <- bind_rows(testdata,traindata) %>%
     arrange(subject,activity)
 ```
 
-### Factor as subject then activity
+### Factoring as subject then activity
 
-<p>We use the fact that the subject and activity are number to combine them to create levels</p>	
+We use the fact that the subject and activity are number to combine them to create levels
 
 ```{r}
 ## Build factor variable
@@ -248,9 +249,9 @@ maxAct <- max(fulldata$activity)
 fsel <- as.factor((fulldata$subject-1)*maxAct+fulldata$activity)
 ```
 
-### Use the factor to compute the means for each variables
+### Using the factor to compute the means for each variables
 
-<p>We start a data.frame with columns subject and activity. We tapply the function unique using our factor</p>
+We start a `data.frame` with columns subject and activity. We tapply the function unique using our factor
 
 ```{r}
 ## Create the data.frame with the subject and activity columns
@@ -259,7 +260,7 @@ meanfull <- data.frame(
  	activity=as.numeric(tapply(fulldata$activity,fsel,unique)))
 ```
 
-<p> We create a second data.frame with the means. We first split the part of the full data.frame containing the variables according to our factor. And use colMeans withlapply. We get a list that once converted into a data.frame needs to be transposed with t(). Once it is reconverted from a matrix to a data.frame(), we use bind_cols to merge it with the first data.frame.</p>
+We create a second `data.frame` with the means. We first split the part of the full `data.frame` containing the variables according to our factor. And use colMeans with `lapply`. We get a list that once converted into a `data.frame` needs to be transposed with function`t()`. Once it is reconverted from a matrix to a `data.frame`, we use bind_cols to merge it with the first `data.frame`.
 
 ```{r}
 ## Use lapply combine with split the data 
@@ -274,10 +275,11 @@ meanfull <- bind_cols(meanfull,meanstoend)
 
 ###Outputs
 
-We produce two output (ASCII files) for completing this project:
+We produce three output (ASCII files) for completing this project:
 
 1. `subject_activity.txt`: Contains the subject and activity entries as integer
 1. `mean_X_table_per_subject_activity.txt`: Contains the mean of each processed data per subject and activity
+1.  `assignment_output.txt`: Combines both previous outputs
 
 ####Formatting
 
@@ -323,7 +325,7 @@ print(meanfull)
 [^mean]: We measure the mean of means, the value we extracted is probably statistically relevant.
 [^std]: We measure the mean of standard deviation, the value we extracted is not statistically relevant. To extract a standard deviation we should use quadratic means
 
-####Reformating and Outputting the final combined `data.frame` for submission
+####Reformatting and Outputting the final combined `data.frame` for submission
 ```{r}
 names(meanfull) <- format(
     names(meanfull),width=labformat,justify ="right")
